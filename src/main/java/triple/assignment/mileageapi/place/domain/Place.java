@@ -1,6 +1,7 @@
 package triple.assignment.mileageapi.place.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.review.domain.Review;
 
 import javax.persistence.*;
@@ -20,9 +21,11 @@ public class Place {
     private Long id;
 
     @NotNull
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "char(36)")
     private UUID placeId;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
     public boolean hasReview() {

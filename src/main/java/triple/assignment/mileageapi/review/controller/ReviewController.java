@@ -20,7 +20,7 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<ResponseWrapper<ReviewResponse>> handleReviewEvent(@RequestBody ReviewEventRequest request) {
         request.validate(); // TODO
-        final ReviewResponse response = reviewService.handleReview(request.toReview());
+        final ReviewResponse response = reviewService.handleReview(request.toReview()).toResponse();
         return ResponseWrapper.ok("handle review event success.", response);
     }
 }

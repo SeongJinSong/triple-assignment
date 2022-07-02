@@ -1,7 +1,9 @@
 package triple.assignment.mileageapi.user.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.point.domain.Point;
+import triple.assignment.mileageapi.review.domain.BaseTimeEntity;
 import triple.assignment.mileageapi.review.domain.Review;
 
 import javax.persistence.*;
@@ -12,15 +14,18 @@ import java.util.UUID;
 
 @Getter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User {
+@Table(name = "USERS")
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "char(36)")
     private UUID userId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

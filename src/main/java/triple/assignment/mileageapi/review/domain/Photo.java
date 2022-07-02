@@ -1,6 +1,7 @@
 package triple.assignment.mileageapi.review.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,10 +16,16 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "char(36)")
     private UUID photoId;
 
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
 
 }

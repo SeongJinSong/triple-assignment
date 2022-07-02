@@ -1,6 +1,7 @@
 package triple.assignment.mileageapi.point.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.review.domain.Review;
 import triple.assignment.mileageapi.user.domain.User;
 
@@ -23,5 +24,7 @@ public class Point {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "char(36)")
     private UUID reviewId;
 }

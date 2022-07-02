@@ -1,6 +1,7 @@
 package triple.assignment.mileageapi.review.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
 import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
@@ -24,6 +25,8 @@ public class Review extends BaseTimeEntity {
     private Long id;
 
     @NotNull
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(columnDefinition = "char(36)")
     private UUID reviewId;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
@@ -77,6 +80,10 @@ public class Review extends BaseTimeEntity {
         return this;
     }
 
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
     public ReviewResponse toResponse() {
         return ReviewResponse.builder()
                 .id(id)
@@ -90,6 +97,8 @@ public class Review extends BaseTimeEntity {
                 )
                 .content(content)
                 .point(point)
+                .createdAt(getCreatedAt())
+                .lastModifiedAt(getLastModifiedAt())
                 .build();
     }
 }

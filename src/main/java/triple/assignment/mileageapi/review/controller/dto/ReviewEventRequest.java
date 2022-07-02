@@ -2,10 +2,9 @@ package triple.assignment.mileageapi.review.controller.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import triple.assignment.mileageapi.place.domain.Place;
+
 import triple.assignment.mileageapi.review.domain.Photo;
 import triple.assignment.mileageapi.review.domain.Review;
-import triple.assignment.mileageapi.user.domain.User;
 import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
 import triple.assignment.mileageapi.review.domain.enumerated.EventType;
 
@@ -14,12 +13,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Getter // jackson (역)직렬화
+@Getter
 @NoArgsConstructor
 public class ReviewEventRequest {
-    private EventType eventType;
 
-    private ActionType actionType;
+    private EventType type;
+
+    private ActionType action;
 
     private UUID reviewId;
 
@@ -32,31 +32,24 @@ public class ReviewEventRequest {
     private UUID placeId;
 
     public void validate() {
-        if (eventType != EventType.REVIEW) {
+        if (type != EventType.REVIEW) {
             throw new RuntimeException();
         }
     }
 
     public Review toReview() {
-        return Review.builder()
-                .photos(
-                        attachedPhotoIds.stream()
-                                .map(e -> Photo.builder().photoId(e).build())
-                                .collect(Collectors.toList())
-                )
+        Review review = Review.builder()
                 .reviewId(reviewId)
                 .placeId(placeId)
                 .userId(userId)
                 .content(content)
-                .actionType(actionType)
+                .actionType(action)
                 .build();
+        review.setPhotos(attachedPhotoIds.stream()
+                .map(e -> Photo.builder().photoId(e).review(review).build())
+                .collect(Collectors.toList()));
+        return review;
     }
 
-    public User toUser() {
-        return User.builder().userId(userId).build();
-    }
 
-    public Place toPlace() {
-        return Place.builder().placeId(placeId).build();
-    }
 }

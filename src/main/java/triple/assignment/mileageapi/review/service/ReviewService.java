@@ -1,23 +1,17 @@
 package triple.assignment.mileageapi.review.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.place.service.PlaceService;
 import triple.assignment.mileageapi.point.service.PointService;
-import triple.assignment.mileageapi.review.controller.dto.ReviewEventRequest;
-import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
-import triple.assignment.mileageapi.review.domain.Photo;
 import triple.assignment.mileageapi.review.domain.Review;
 import triple.assignment.mileageapi.review.domain.ReviewRepository;
+import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
 import triple.assignment.mileageapi.user.domain.User;
 import triple.assignment.mileageapi.user.service.UserService;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -28,26 +22,23 @@ public class ReviewService {
     private final PointService pointService;
     private final ReviewRepository reviewRepository;
 
-    public ReviewResponse handleReview(Review review) {
-//        switch (review.getActionType()) {
-//            case ADD: create(review);
-//            case MODE: patch(review);
-//            case DELETE: delete(review);
-//            default:
-//                throw new RuntimeException(); // TODO
-//        }
+    public Review handleReview(Review review) {
+        if (review.getActionType() == ActionType.ADD) return create(review);
+        else if (review.getActionType() == ActionType.MOD) return patch(review);
+        else return delete(review);
+    }
+
+    private Review delete(Review review) {
         return null;
     }
 
-    private void delete(Review review) {
-    }
-
-    private void patch(Review review) {
+    private Review patch(Review review) {
+        return null;
     }
 
 
     @Transactional
-    public ReviewResponse create(Review review) {
+    public Review create(Review review) {
         final Place place = placeService.getPlaceWithUUID(review.getPlaceId()).orElseThrow(); // TODO Exception
         final User user = userService.getUserWithUUID(review.getUserId()).orElseThrow(); // TODO Exception
 
@@ -58,12 +49,10 @@ public class ReviewService {
         final int point = determinePoint(review, place);
         pointService.savePointHistory(user, review.getReviewId(), point);
 
-
-        return review
-                .setUser(user)
-                .setPlace(place)
-                .setPoint(point)
-                .toResponse();
+        // 리뷰 저장
+        return reviewRepository.save(
+                review.setUser(user).setPlace(place).setPoint(point)
+        );
     }
 
     private void checkAlreadyWritten(User user, Place place) {
