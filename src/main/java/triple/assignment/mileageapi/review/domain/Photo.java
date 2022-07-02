@@ -1,13 +1,13 @@
 package triple.assignment.mileageapi.review.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+@Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Photo {
@@ -20,4 +20,5 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "review_id")
     private Review review;
+
 }

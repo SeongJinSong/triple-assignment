@@ -1,7 +1,6 @@
 package triple.assignment.mileageapi.user.domain;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.review.domain.Review;
 
@@ -11,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class User {
@@ -39,5 +41,10 @@ public class User {
                 .reduce(Integer::sum)
                 .orElse(0);
         return totalPoint;
+    }
+
+    public void addReview(Review review) {
+        getReviews().add(review);
+        review.setUser(this);
     }
 }

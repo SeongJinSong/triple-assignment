@@ -1,4 +1,4 @@
-package triple.assignment.mileageapi.global.common.dto;
+package triple.assignment.mileageapi.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;

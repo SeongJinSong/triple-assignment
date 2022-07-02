@@ -1,14 +1,15 @@
 package triple.assignment.mileageapi.point.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import triple.assignment.mileageapi.review.domain.Review;
 import triple.assignment.mileageapi.user.domain.User;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Point {
@@ -22,7 +23,5 @@ public class Point {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+    private UUID reviewId;
 }

@@ -1,8 +1,6 @@
 package triple.assignment.mileageapi.place.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import triple.assignment.mileageapi.review.domain.Review;
 
 import javax.persistence.*;
@@ -12,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Place {
@@ -27,5 +27,10 @@ public class Place {
 
     public boolean hasReview() {
         return !reviews.isEmpty();
+    }
+
+
+    public int getFirstReviewPoint() {
+        return hasReview() ? 0 : 1;
     }
 }
