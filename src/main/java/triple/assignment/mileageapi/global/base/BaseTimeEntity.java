@@ -1,4 +1,4 @@
-package triple.assignment.mileageapi.review.domain;
+package triple.assignment.mileageapi.global.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

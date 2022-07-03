@@ -3,7 +3,7 @@ package triple.assignment.mileageapi.user.domain;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.point.domain.Point;
-import triple.assignment.mileageapi.review.domain.BaseTimeEntity;
+import triple.assignment.mileageapi.global.base.BaseTimeEntity;
 import triple.assignment.mileageapi.review.domain.Review;
 
 import javax.persistence.*;

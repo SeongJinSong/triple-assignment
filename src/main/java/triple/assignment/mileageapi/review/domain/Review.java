@@ -2,6 +2,7 @@ package triple.assignment.mileageapi.review.domain;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import triple.assignment.mileageapi.global.base.BaseTimeEntity;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
 import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
