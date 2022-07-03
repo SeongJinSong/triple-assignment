@@ -90,9 +90,7 @@ public class ReviewService {
 
 
     private int getFirstReviewPoint(Review review) {
-        final Review firstReview = reviewRepository.findTopByPlaceOrderByCreatedAtDesc(review.getPlace())
-                .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
-        return review.getReviewId().equals(firstReview.getReviewId()) ? 1 : 0;
+        return review.getPlace().isFirstReview(review.getReviewId()) ? 1 : 0;
     }
 
 }

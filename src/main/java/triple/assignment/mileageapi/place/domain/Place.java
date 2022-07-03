@@ -2,11 +2,13 @@ package triple.assignment.mileageapi.place.domain;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import triple.assignment.mileageapi.global.base.BaseTimeEntity;
 import triple.assignment.mileageapi.review.domain.Review;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,5 +37,12 @@ public class Place {
 
     public int getFirstReviewPoint() {
         return hasReview() ? 0 : 1;
+    }
+
+    public boolean isFirstReview(UUID reviewId) {
+        return this.reviews.stream()
+                .min(Comparator.comparing(BaseTimeEntity::getCreatedAt))
+                .orElseThrow()
+                .getReviewId().equals(reviewId);
     }
 }
