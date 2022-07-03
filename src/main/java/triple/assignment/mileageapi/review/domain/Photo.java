@@ -20,12 +20,17 @@ public class Photo {
     @Column(columnDefinition = "char(36)")
     private UUID photoId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
 
     public void setReview(Review review) {
         this.review = review;
+    }
+
+    public void clearReview() {
+//        this.review.clearPhoto(this);
+        this.review = null;
     }
 
 }

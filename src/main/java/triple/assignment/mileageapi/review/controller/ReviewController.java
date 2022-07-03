@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import triple.assignment.mileageapi.global.dto.ResponseWrapper;
 import triple.assignment.mileageapi.review.controller.dto.ReviewEventRequest;
 import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
+import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
 import triple.assignment.mileageapi.review.service.ReviewService;
 
 @RequiredArgsConstructor
@@ -20,7 +21,17 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<ResponseWrapper<ReviewResponse>> handleReviewEvent(@RequestBody ReviewEventRequest request) {
         request.validate(); // TODO
-        final ReviewResponse response = reviewService.handleReview(request.toReview()).toResponse();
+        ReviewResponse response;
+        if (request.getAction() == ActionType.ADD) {
+             response = reviewService.create(request.toReview()).toResponse();
+        }
+        else if (request.getAction() == ActionType.MOD) {
+             response = reviewService.patch(request.toReview()).toResponse();
+        }
+        else {
+             response = reviewService.delete(request.toReview()).toResponse();
+        }
+
         return ResponseWrapper.ok("handle review event success.", response);
     }
 }

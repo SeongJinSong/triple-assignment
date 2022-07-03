@@ -46,7 +46,7 @@ public class ReviewEventRequest {
                 .actionType(action)
                 .build();
         review.setPhotos(attachedPhotoIds.stream()
-                .map(e -> Photo.builder().photoId(e).review(review).build())
+                .map(e -> Photo.builder().photoId(e).build())
                 .collect(Collectors.toList()));
         return review;
     }

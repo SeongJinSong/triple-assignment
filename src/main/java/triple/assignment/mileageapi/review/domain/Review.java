@@ -29,19 +29,19 @@ public class Review extends BaseTimeEntity {
     @Column(columnDefinition = "char(36)")
     private UUID reviewId;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
 
     @Lob
     private String content;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -75,6 +75,7 @@ public class Review extends BaseTimeEntity {
 
     public void setPhotos(List<Photo> photos) {
         this.photos = photos;
+        photos.forEach(e -> e.setReview(this));
     }
 
     public ReviewResponse toResponse() {
@@ -99,8 +100,15 @@ public class Review extends BaseTimeEntity {
         return this;
     }
 
-    public Review changePhotos(List<Photo> photos) {
-        this.photos = photos;
-        return this;
+    public void clearAllPhotos() {
+        getPhotos().forEach(Photo::clearReview);
+        this.photos.clear();
+    }
+
+    public void addPhotos(List<Photo> photos) {
+        photos.forEach(e -> {
+            e.setReview(this);
+            this.photos.add(e);
+        });
     }
 }
