@@ -3,10 +3,8 @@ package triple.assignment.mileageapi.review.domain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import triple.assignment.mileageapi.place.domain.Place;
-import triple.assignment.mileageapi.review.domain.Review;
 import triple.assignment.mileageapi.user.domain.User;
 
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.UUID;
 

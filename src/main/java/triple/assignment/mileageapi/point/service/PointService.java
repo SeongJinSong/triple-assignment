@@ -3,6 +3,7 @@ package triple.assignment.mileageapi.point.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import triple.assignment.mileageapi.global.error.exception.UserNotFoundException;
 import triple.assignment.mileageapi.point.controller.dto.PointHistoryResponse;
 import triple.assignment.mileageapi.point.controller.dto.PointResponse;
 import triple.assignment.mileageapi.point.domain.Point;
@@ -12,6 +13,9 @@ import triple.assignment.mileageapi.user.service.UserService;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static triple.assignment.mileageapi.global.error.ErrorCode.*;
+
 
 @RequiredArgsConstructor
 @Service
@@ -35,10 +39,9 @@ public class PointService {
         return PointResponse.builder()
                 .userId(userId)
                 .totalPoint(
-                        pointRepository.findAllByUser(userService.getUserWithUUID(userId).orElseThrow())
-                                .stream()
-                                .map(Point::getScore)
-                                .reduce(0, Integer::sum)
+                        userService.getUserWithUUID(userId)
+                                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND))
+                                .getPoint()
                 )
                 .build();
     }
@@ -48,8 +51,9 @@ public class PointService {
         return PointHistoryResponse.builder()
                 .userId(userId)
                 .pointHistory(
-                        pointRepository.findAllByUser(userService.getUserWithUUID(userId).orElseThrow())
-                                .stream()
+                        userService.getUserWithUUID(userId)
+                                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND))
+                                .getPoints().stream()
                                 .map(Point::toDto)
                                 .collect(Collectors.toList())
                 )
