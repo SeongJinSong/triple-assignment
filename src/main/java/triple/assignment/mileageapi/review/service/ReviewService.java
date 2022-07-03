@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import triple.assignment.mileageapi.global.error.exception.DuplicateReviewException;
-import triple.assignment.mileageapi.global.error.exception.PlaceNotFoundException;
 import triple.assignment.mileageapi.global.error.exception.ReviewNotFoundException;
-import triple.assignment.mileageapi.global.error.exception.UserNotFoundException;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.place.service.PlaceService;
 import triple.assignment.mileageapi.point.service.PointService;
@@ -32,30 +30,29 @@ public class ReviewService {
 
     @Transactional
     public Review create(Review review) {
-        final Place place = placeService.getPlaceWithUUID(review.getPlaceId())
-                .orElseThrow(() -> new PlaceNotFoundException(PLACE_NOT_FOUND));
-        final User user = userService.getUserWithUUID(review.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        final Place place = placeService.getPlaceByIdOrThrow(review.getPlaceId());
+        final User user = userService.getUserByIdOrThrow(review.getUserId());
 
         checkAlreadyWritten(user, place);
 
-        pointService.savePointHistory(user, review.getReviewId(), getSavePoint(review, place));
+        pointService.savePointHistory(user, review.getReviewId(), calculatePointForSave(review, place));
 
         return reviewRepository.save(  review.setUser(user).setPlace(place)  );
     }
 
 
     @Transactional
-    public Review patch(Review review) {
-        final Review findReview = reviewRepository.findByReviewId(review.getReviewId())
+    public Review patch(Review targetReview) {
+        final Review previousReview = reviewRepository.findByReviewId(targetReview.getReviewId())
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
-        pointService.savePointHistory(findReview.getUser(), findReview.getReviewId(), getChangePoint(review, findReview));
+        pointService.savePointHistory(
+                previousReview.getUser(), previousReview.getReviewId(), calculatePointForUpdate(targetReview, previousReview));
 
-        findReview.clearAllPhotos();
-        findReview.addPhotos(  review.getPhotos()  );
+        previousReview.clearAllPhotos();
+        previousReview.addPhotos(  targetReview.getPhotos()  );
 
-        return findReview.changeContent(review.getContent());
+        return previousReview.changeContent(targetReview.getContent());
     }
 
 
@@ -64,7 +61,7 @@ public class ReviewService {
         final Review findReview = reviewRepository.findByReviewId(review.getReviewId())
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
-        pointService.savePointHistory(  findReview.getUser(), review.getReviewId(), getReleasePoint(findReview)  );
+        pointService.savePointHistory(  findReview.getUser(), review.getReviewId(), calculatePointForDelete(findReview)  );
         reviewRepository.delete(findReview);
 
         return findReview;
@@ -78,15 +75,16 @@ public class ReviewService {
     }
 
 
-    private int getChangePoint(Review after, Review before) {
+
+    private int calculatePointForUpdate(Review after, Review before) {
         return (after.getContentPoint() + after.getPhotoPoint()) - (before.getContentPoint() + before.getPhotoPoint());
     }
 
-    private int getSavePoint(Review review, Place place) {
+    private int calculatePointForSave(Review review, Place place) {
         return review.getPhotoPoint() + review.getContentPoint() + place.getFirstReviewPoint() ;
     }
 
-    private int getReleasePoint(Review review) {
+    private int calculatePointForDelete(Review review) {
         return -1 * (review.getPhotoPoint() + review.getContentPoint() + getFirstReviewPoint(review));
     }
 

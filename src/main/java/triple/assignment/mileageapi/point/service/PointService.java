@@ -14,8 +14,6 @@ import triple.assignment.mileageapi.user.service.UserService;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static triple.assignment.mileageapi.global.error.ErrorCode.*;
-
 
 @RequiredArgsConstructor
 @Service
@@ -38,11 +36,7 @@ public class PointService {
     public PointResponse getPointByUser(UUID userId) {
         return PointResponse.builder()
                 .userId(userId)
-                .totalPoint(
-                        userService.getUserWithUUID(userId)
-                                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND))
-                                .getPoint()
-                )
+                .totalPoint(userService.getUserByIdOrThrow(userId).getPoint())
                 .build();
     }
 
@@ -51,9 +45,8 @@ public class PointService {
         return PointHistoryResponse.builder()
                 .userId(userId)
                 .pointHistory(
-                        userService.getUserWithUUID(userId)
-                                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND))
-                                .getPoints().stream()
+                        userService.getUserByIdOrThrow(userId).getPoints()
+                                .stream()
                                 .map(Point::toDto)
                                 .collect(Collectors.toList())
                 )
