@@ -41,9 +41,6 @@ public class Review extends BaseTimeEntity {
     private Place place;
 
     @NotNull
-    private int point;
-
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -75,10 +72,6 @@ public class Review extends BaseTimeEntity {
         return getContent().isEmpty() ? 0 : 1;
     }
 
-    public Review setPoint(int point) {
-        this.point = point;
-        return this;
-    }
 
     public void setPhotos(List<Photo> photos) {
         this.photos = photos;
@@ -96,9 +89,18 @@ public class Review extends BaseTimeEntity {
                                 .collect(Collectors.toList())
                 )
                 .content(content)
-                .point(point)
                 .createdAt(getCreatedAt())
                 .lastModifiedAt(getLastModifiedAt())
                 .build();
+    }
+
+    public Review changeContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public Review changePhotos(List<Photo> photos) {
+        this.photos = photos;
+        return this;
     }
 }

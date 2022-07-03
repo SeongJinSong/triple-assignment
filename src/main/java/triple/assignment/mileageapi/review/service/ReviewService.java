@@ -12,6 +12,9 @@ import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
 import triple.assignment.mileageapi.user.domain.User;
 import triple.assignment.mileageapi.user.service.UserService;
 
+import java.util.Optional;
+import java.util.UUID;
+
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -28,32 +31,49 @@ public class ReviewService {
         else return delete(review);
     }
 
-    private Review delete(Review review) {
-        return null;
-    }
-
-    private Review patch(Review review) {
-        return null;
-    }
-
 
     @Transactional
     public Review create(Review review) {
         final Place place = placeService.getPlaceWithUUID(review.getPlaceId()).orElseThrow(); // TODO Exception
         final User user = userService.getUserWithUUID(review.getUserId()).orElseThrow(); // TODO Exception
 
-        // 이미 작성했던 리뷰가 있는지 확인
         checkAlreadyWritten(user, place);
 
-        // 포인트 계산 및 이력 저장
-        final int point = determinePoint(review, place);
-        pointService.savePointHistory(user, review.getReviewId(), point);
+        final Review saveReview = reviewRepository.save(  review.setUser(user).setPlace(place)  );
+        pointService.savePointHistory(user, review.getReviewId(), getSavePoint(saveReview));
 
-        // 리뷰 저장
-        return reviewRepository.save(
-                review.setUser(user).setPlace(place).setPoint(point)
-        );
+        return saveReview;
     }
+
+
+    @Transactional
+    public Review patch(Review review) {
+        final Review findReview = getReview(review.getReviewId())
+                .orElseThrow()
+                .changeContent(review.getContent())
+                .changePhotos(review.getPhotos());
+
+        pointService.savePointHistory(  findReview.getUser(), findReview.getReviewId(), getSavePoint(findReview)  );
+
+        return review;
+    }
+
+
+    @Transactional
+    public Review delete(Review review) {
+        final Review findReview = getReview(review.getReviewId()).orElseThrow();
+
+        pointService.savePointHistory(  findReview.getUser(), review.getReviewId(), getReleasePoint(findReview)  );
+        reviewRepository.delete(findReview);
+
+        return findReview;
+    }
+
+
+    public Optional<Review> getReview(UUID reviewId) {
+        return reviewRepository.findByReviewId(reviewId);
+    }
+
 
     private void checkAlreadyWritten(User user, Place place) {
         if (reviewRepository.existsByUserAndPlace(user, place)) {
@@ -61,8 +81,20 @@ public class ReviewService {
         }
     }
 
-    private int determinePoint(Review review, Place place) {
-        return review.getPhotoPoint() + review.getContentPoint() + place.getFirstReviewPoint();
+
+
+    private int getSavePoint(Review review) {
+        return review.getPhotoPoint() + review.getContentPoint() + review.getPlace().getFirstReviewPoint();
+    }
+
+    private int getReleasePoint(Review review) {
+        return -1 * (review.getPhotoPoint() + review.getContentPoint() + getFirstReviewPoint(review));
+    }
+
+    private int getFirstReviewPoint(Review review) {
+        final Review firstReview = reviewRepository.findTopByPlaceOrderByCreatedAtDesc(review.getPlace())
+                .orElseThrow();
+        return review.getReviewId().equals(firstReview.getReviewId()) ? 1 : 0;
     }
 
 }
