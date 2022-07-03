@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Review extends BaseTimeEntity {
