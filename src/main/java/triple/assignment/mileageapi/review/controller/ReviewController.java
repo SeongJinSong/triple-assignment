@@ -21,17 +21,21 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<ResponseWrapper<ReviewResponse>> handleReviewEvent(@RequestBody ReviewEventRequest request) {
         request.validate(); // TODO
-        ReviewResponse response;
+
         if (request.getAction() == ActionType.ADD) {
-             response = reviewService.create(request.toReview()).toResponse();
+            return ResponseWrapper.ok(
+                    "handle review create event success.", reviewService.create(request.toReview()).toResponse());
         }
         else if (request.getAction() == ActionType.MOD) {
-             response = reviewService.patch(request.toReview()).toResponse();
+            return ResponseWrapper.ok(
+                    "handle review patch event success.", reviewService.patch(request.toReview()).toResponse());
+        }
+        else if (request.getAction() == ActionType.DELETE) {
+            reviewService.delete(request.toReview());
+            return ResponseWrapper.ok("handle review delete event success.", null); // TODO
         }
         else {
-             response = reviewService.delete(request.toReview()).toResponse();
+            throw new RuntimeException(); // TODO
         }
-
-        return ResponseWrapper.ok("handle review event success.", response);
     }
 }

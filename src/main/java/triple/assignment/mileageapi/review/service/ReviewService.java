@@ -57,14 +57,12 @@ public class ReviewService {
 
 
     @Transactional
-    public Review delete(Review review) {
+    public void delete(Review review) {
         final Review findReview = reviewRepository.findByReviewId(review.getReviewId())
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
         pointService.savePointHistory(  findReview.getUser(), review.getReviewId(), calculatePointForDelete(findReview)  );
         reviewRepository.delete(findReview);
-
-        return findReview;
     }
 
 
