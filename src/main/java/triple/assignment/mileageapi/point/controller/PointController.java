@@ -21,7 +21,7 @@ public class PointController {
 
     @GetMapping(path = "/summary")
     public ResponseEntity<ResponseWrapper<PointResponse>> getUserPointSummary(@RequestParam("user-id") UUID userId) {
-        final PointResponse response = pointService.getPointByUser(userId);
+        final PointResponse response = pointService.getCurrentPointByUser(userId);
         return ResponseWrapper.ok("get user total point success", response);
     }
 

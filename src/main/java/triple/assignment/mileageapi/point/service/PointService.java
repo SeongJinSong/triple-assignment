@@ -3,7 +3,6 @@ package triple.assignment.mileageapi.point.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import triple.assignment.mileageapi.global.error.exception.UserNotFoundException;
 import triple.assignment.mileageapi.point.controller.dto.PointHistoryResponse;
 import triple.assignment.mileageapi.point.controller.dto.PointResponse;
 import triple.assignment.mileageapi.point.domain.Point;
@@ -32,8 +31,8 @@ public class PointService {
         );
     }
 
-
-    public PointResponse getPointByUser(UUID userId) {
+    @Transactional(readOnly = true)
+    public PointResponse getCurrentPointByUser(UUID userId) {
         return PointResponse.builder()
                 .userId(userId)
                 .totalPoint(userService.getUserByIdOrThrow(userId).getPoint())
@@ -41,6 +40,7 @@ public class PointService {
     }
 
 
+    @Transactional(readOnly = true)
     public PointHistoryResponse getPointHistoryByUser(UUID userId) {
         return PointHistoryResponse.builder()
                 .userId(userId)

@@ -31,7 +31,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class ReviewServiceTest {
     @Mock
