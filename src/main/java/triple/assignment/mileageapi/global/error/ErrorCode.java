@@ -12,7 +12,7 @@ public enum ErrorCode {
 
     INVALID_ACTION_TYPE(HttpStatus.BAD_REQUEST, "invalid action type."),
 
-    DUPLICATE_REVIEW(HttpStatus.BAD_REQUEST, "review already exists."),
+    DUPLICATE_REVIEW(HttpStatus.BAD_REQUEST, "Your review of the place already exists."),
 
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "there is no place matching the placeId."),
 
