@@ -50,7 +50,7 @@ public class ReviewService {
                 previousReview.getUser(), previousReview.getReviewId(), calculatePointForUpdate(targetReview, previousReview));
 
         previousReview.clearAllPhotos();
-        previousReview.addPhotos(  targetReview.getPhotos()  );
+        previousReview.addPhotos(targetReview.getPhotos());
 
         return previousReview.changeContent(targetReview.getContent());
     }
@@ -58,11 +58,14 @@ public class ReviewService {
 
     @Transactional
     public void delete(Review review) {
-        final Review findReview = reviewRepository.findByReviewId(review.getReviewId())
+        final Review targetReview = reviewRepository.findByReviewId(review.getReviewId())
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
-        pointService.savePointHistory(  findReview.getUser(), review.getReviewId(), calculatePointForDelete(findReview)  );
-        reviewRepository.delete(findReview);
+        pointService.savePointHistory(targetReview.getUser(), review.getReviewId(), calculatePointForDelete(targetReview));
+
+        targetReview.clearAllMappings();
+
+        reviewRepository.delete(targetReview);
     }
 
 

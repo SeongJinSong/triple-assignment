@@ -14,6 +14,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     boolean existsByUserAndPlace(User user, Place place);
 
     Optional<Review> findByReviewId(UUID reviewId);
-
-    Optional<Review> findTopByPlaceOrderByCreatedAtDesc(Place place);
 }

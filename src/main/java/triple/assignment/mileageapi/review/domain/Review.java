@@ -36,14 +36,12 @@ public class Review extends BaseTimeEntity {
     @Lob
     private String content;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id")
+    @JoinColumn(name = "place_id", nullable = false)
     private Place place;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Transient
@@ -111,5 +109,21 @@ public class Review extends BaseTimeEntity {
             e.setReview(this);
             this.photos.add(e);
         });
+    }
+
+    public void clearAllMappings() {
+        clearPlace();
+        clearUser();
+        clearAllPhotos();
+    }
+
+    public void clearPlace() {
+        this.place.getReviews().remove(this);
+        this.place = null;
+    }
+
+    public void clearUser() {
+        this.user.getReviews().remove(this);
+        this.user = null;
     }
 }
