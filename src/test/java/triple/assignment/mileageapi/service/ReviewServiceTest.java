@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 
@@ -79,7 +80,7 @@ public class ReviewServiceTest {
         given(placeService.getPlaceByIdOrThrow(any())).willReturn(place);
         given(userService.getUserByIdOrThrow(any())).willReturn(user);
         given(reviewRepository.existsByUserAndPlace(any(), any())).willReturn(Boolean.FALSE);
-        doNothing().when(pointService).savePointHistory(any(), any(), anyInt());
+        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt());
         given(reviewRepository.save(any())).willReturn(review);
 
         // when
@@ -144,7 +145,7 @@ public class ReviewServiceTest {
                 .build();
 
         given(reviewRepository.findByReviewId(any())).willReturn(Optional.of(review));
-        doNothing().when(pointService).savePointHistory(any(), any(), anyInt());
+        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt());
 
         // when
         Review afterReview = reviewService.patch(targetReview);
@@ -164,8 +165,8 @@ public class ReviewServiceTest {
         place.getReviews().add(review);
         user.getReviews().add(review);
         given(reviewRepository.findByReviewId(any())).willReturn(Optional.of(review));
-        doNothing().when(pointService).savePointHistory(any(), any(), anyInt());
-        doNothing().when(reviewRepository).delete(any());
+        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt());
+        willDoNothing().given(reviewRepository).delete(any());
 
         // when
         reviewService.delete(review);

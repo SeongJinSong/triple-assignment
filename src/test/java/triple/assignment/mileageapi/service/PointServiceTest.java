@@ -41,6 +41,9 @@ public class PointServiceTest {
     private User user;
     private List<Point> points;
 
+    /**
+     * 조회 테스트 - 한번만 초기화
+     */
     @BeforeAll
     public void setup() {
         user = User.builder().userId(UUID.randomUUID()).points(new ArrayList<>()).build();
@@ -56,7 +59,7 @@ public class PointServiceTest {
         // given
         given(userService.getUserByIdOrThrow(any())).willReturn(user);
         // when
-        PointResponse response = pointService.getCurrentPointByUser(user.getUserId());
+        PointResponse response = PointResponse.of(pointService.getCurrentPointByUser(user.getUserId()));
         // then
         assertEquals(points.size() * 3, response.getTotalPoint());
     }

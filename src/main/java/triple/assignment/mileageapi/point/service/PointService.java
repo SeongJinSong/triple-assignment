@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import triple.assignment.mileageapi.point.controller.dto.PointHistoryResponse;
-import triple.assignment.mileageapi.point.controller.dto.PointResponse;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.point.domain.PointRepository;
 import triple.assignment.mileageapi.user.domain.User;
@@ -32,10 +31,11 @@ public class PointService {
     }
 
     @Transactional(readOnly = true)
-    public PointResponse getCurrentPointByUser(UUID userId) {
-        return PointResponse.builder()
-                .userId(userId)
-                .totalPoint(userService.getUserByIdOrThrow(userId).getPoint())
+    public Point getCurrentPointByUser(UUID userId) {
+        final User user = userService.getUserByIdOrThrow(userId);
+        return Point.builder()
+                .user(user)
+                .score(user.getPoint())
                 .build();
     }
 
@@ -51,6 +51,5 @@ public class PointService {
                                 .collect(Collectors.toList())
                 )
                 .build();
-
     }
 }
