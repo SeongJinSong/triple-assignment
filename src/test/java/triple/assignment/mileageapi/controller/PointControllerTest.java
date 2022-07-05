@@ -46,6 +46,7 @@ public class PointControllerTest {
         response = PointResponse.builder().totalPoint(1).build();
     }
 
+
     @DisplayName("get user total point")
     @Test
     public void getPointSummaryTest() throws Exception {

@@ -67,8 +67,6 @@ public class PointServiceTest {
     @DisplayName("get user's total point history")
     @Test
     public void getPointHistoryByUserTest() {
-        // given
-        given(userService.getUserByIdOrThrow(any())).willReturn(user);
         // when
         PointHistoryResponse response = pointService.getPointHistoryByUser(user.getUserId());
         // then

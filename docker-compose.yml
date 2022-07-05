@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  database:
+    image: mysql:5.7
+    container_name: db-mysql
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
+    restart: always
+    environment:
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    networks:
+      - springboot-mysql-net
+
+  application:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    container_name: mileage-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/testdb?useSSL=false&serverTimezone=UTC&validationQuery="select 1"
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
+    networks:
+      - springboot-mysql-net
+
+networks:
+  springboot-mysql-net:
+    driver: bridge
