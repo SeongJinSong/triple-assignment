@@ -16,7 +16,7 @@ public class ErrorResponse {
     private final String status; // OK
     private final String message; // reason
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private final LocalDateTime localDateTime = LocalDateTime.now();
 
     public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorCode) {

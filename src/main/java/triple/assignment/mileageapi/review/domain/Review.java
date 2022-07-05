@@ -53,13 +53,9 @@ public class Review extends BaseTimeEntity {
     @Transient
     private ActionType actionType;
 
-    public Review setUser(User user) {
-        this.user = user;
-        return this;
-    }
 
-    public Review setPlace(Place place) {
-        this.place = place;
+    public Review changeContent(String content) {
+        this.content = content;
         return this;
     }
 
@@ -71,45 +67,26 @@ public class Review extends BaseTimeEntity {
         return getContent().isEmpty() ? 0 : 1;
     }
 
-
-    public void setPhotos(List<Photo> photos) {
-        this.photos = photos;
-        photos.forEach(e -> e.setReview(this));
-    }
-
-    public ReviewResponse toResponse() {
-        return ReviewResponse.builder()
-                .id(id)
-                .reviewId(reviewId)
-                .placeId(placeId)
-                .userId(userId)
-                .photos(
-                        getPhotos().stream()
-                                .map(Photo::getPhotoId)
-                                .collect(Collectors.toList())
-                )
-                .content(content)
-                .createdAt(getCreatedAt())
-                .lastModifiedAt(getLastModifiedAt())
-                .build();
-    }
-
-    public Review changeContent(String content) {
-        this.content = content;
+    public Review setUser(User user) {
+        this.user = user;
         return this;
     }
 
-    public void clearAllPhotos() {
-        getPhotos().forEach(Photo::clearReview);
-        this.photos.clear();
+    public Review setPlace(Place place) {
+        this.place = place;
+        return this;
     }
 
     public void addPhotos(List<Photo> photos) {
+        if (this.photos == null) {
+            this.photos = new ArrayList<>();
+        }
         photos.forEach(e -> {
             e.setReview(this);
             this.photos.add(e);
         });
     }
+
 
     public void clearAllMappings() {
         clearPlace();
@@ -126,4 +103,27 @@ public class Review extends BaseTimeEntity {
         this.user.getReviews().remove(this);
         this.user = null;
     }
+    public void clearAllPhotos() {
+        getPhotos().forEach(Photo::clearReview);
+        this.photos.clear();
+    }
+
+
+    public ReviewResponse toResponse() {
+        return ReviewResponse.builder()
+                .id(id)
+                .reviewId(reviewId)
+                .placeId(placeId)
+                .userId(userId)
+                .photos(
+                        getPhotos().stream()
+                                .map(Photo::getPhotoId)
+                                .collect(Collectors.toList())
+                )
+                .content(content)
+                .createdAt(getCreatedAt())
+                .lastModifiedAt(getModifiedAt())
+                .build();
+    }
+
 }

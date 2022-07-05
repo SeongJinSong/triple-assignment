@@ -26,14 +26,19 @@ public class ReviewController {
             return ResponseWrapper.ok(
                     "handle review create event success.", reviewService.create(request.toReview()).toResponse());
         }
+
         else if (request.getAction() == ActionType.MOD) {
-            return ResponseWrapper.ok(
-                    "handle review patch event success.", reviewService.patch(request.toReview()).toResponse());
+            final ReviewResponse response = ReviewResponse.of(reviewService.patch(request.toReview()));
+            response.setUserId(request.getUserId());
+            response.setPlaceId(request.getPlaceId());
+            return ResponseWrapper.ok("handle review patch event success.", response);
         }
+
         else if (request.getAction() == ActionType.DELETE) {
             reviewService.delete(request.toReview());
-            return ResponseWrapper.ok("handle review delete event success.", null); // TODO
+            return ResponseWrapper.ok("handle review delete event success.", null);
         }
+
         else {
             throw new RuntimeException(); // TODO
         }
