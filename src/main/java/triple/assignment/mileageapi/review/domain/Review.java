@@ -149,7 +149,7 @@ public class Review extends BaseTimeEntity {
                 .content(content)
                 .point(point)
                 .createdAt(getCreatedAt())
-                .lastModifiedAt(getModifiedAt())
+                .modifiedAt(getModifiedAt())
                 .build();
     }
 

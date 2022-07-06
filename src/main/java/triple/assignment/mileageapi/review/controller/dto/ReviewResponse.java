@@ -37,7 +37,7 @@ public class ReviewResponse {
     private LocalDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private LocalDateTime lastModifiedAt;
+    private LocalDateTime modifiedAt;
 
     public static ReviewResponse of(Review review) {
         return ReviewResponse.builder()
@@ -52,7 +52,7 @@ public class ReviewResponse {
                 )
                 .content(review.getContent())
                 .createdAt(review.getCreatedAt())
-                .lastModifiedAt(review.getModifiedAt())
+                .modifiedAt(review.getModifiedAt())
                 .point(review.getPoint())
                 .build();
     }

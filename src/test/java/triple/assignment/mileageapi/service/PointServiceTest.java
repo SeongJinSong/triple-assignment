@@ -23,6 +23,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
@@ -69,7 +70,7 @@ public class PointServiceTest {
         // when
         List<Point> points = pointService.getPointHistoryByUser(user.getUserId(), PageRequest.ofSize(100));
         // then
-        assertEquals(points.size(), 5);
+        verify(pointRepository).findAllByUser(any(), any());
     }
 
 }
