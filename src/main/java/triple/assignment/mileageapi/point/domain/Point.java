@@ -45,4 +45,8 @@ public class Point {
                 .createdAt(getCreatedAt())
                 .build();
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

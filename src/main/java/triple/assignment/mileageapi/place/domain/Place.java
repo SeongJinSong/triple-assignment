@@ -48,4 +48,9 @@ public class Place {
                 .orElseThrow()
                 .getReviewId().equals(reviewId);
     }
+
+    public void addReview(Review review) {
+        getReviews().add(review);
+        review.setPlace(this);
+    }
 }

@@ -55,4 +55,12 @@ public class User {
         getReviews().add(review);
         review.setUser(this);
     }
+
+    public void addPoint(Point point) {
+        if (this.points == null) {
+            this.points = new ArrayList<>();
+        }
+        this.points.add(point);
+        point.setUser(this);
+    }
 }

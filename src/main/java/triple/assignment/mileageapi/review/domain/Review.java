@@ -58,6 +58,14 @@ public class Review extends BaseTimeEntity {
     @Transient
     private ActionType actionType;
 
+    @Transient
+    private int point;
+
+    public Review setPoint(int point) {
+        this.point = point;
+        return this;
+    }
+
 
     public Review changeContent(String content) {
         this.content = content;
@@ -138,6 +146,7 @@ public class Review extends BaseTimeEntity {
                                 .collect(Collectors.toList())
                 )
                 .content(content)
+                .point(point)
                 .createdAt(getCreatedAt())
                 .lastModifiedAt(getModifiedAt())
                 .build();

@@ -3,6 +3,7 @@ package triple.assignment.mileageapi.review.controller.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import lombok.Setter;
 import triple.assignment.mileageapi.review.domain.Photo;
 import triple.assignment.mileageapi.review.domain.Review;
 import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Setter
 @Getter
 @NoArgsConstructor
 public class ReviewEventRequest {

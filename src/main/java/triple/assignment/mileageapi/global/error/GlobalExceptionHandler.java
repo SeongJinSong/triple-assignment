@@ -39,4 +39,24 @@ public class GlobalExceptionHandler {
         return ErrorResponse.toResponseEntity(ex.getErrorCode());
     }
 
+
+    @ExceptionHandler(value = InvalidReviewException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidReviewException(InvalidReviewException ex) {
+        log.error("handleInvalidReviewException - ");
+        return ErrorResponse.toResponseEntity(ex.getErrorCode());
+    }
+
+
+    @ExceptionHandler(value = InvalidActionTypeException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidActionTypeException(InvalidActionTypeException ex) {
+        log.error("handleInvalidActionTypeException - ");
+        return ErrorResponse.toResponseEntity(ex.getErrorCode());
+    }
+
+
+    @ExceptionHandler(value = InvalidEventTypeException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidEventTypeException(InvalidEventTypeException ex) {
+        log.error("handleInvalidEventTypeException - ");
+        return ErrorResponse.toResponseEntity(ex.getErrorCode());
+    }
 }

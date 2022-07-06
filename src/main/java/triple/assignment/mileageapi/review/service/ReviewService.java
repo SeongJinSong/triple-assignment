@@ -35,9 +35,10 @@ public class ReviewService {
 
         checkAlreadyWritten(user, place);
 
-        pointService.savePointHistory(user, review.getReviewId(), calculatePointForSave(review, place));
+        final int point = calculatePointForSave(review, place);
+        pointService.savePointHistory(user, review.getReviewId(), point);
 
-        return reviewRepository.save(  review.setUser(user).setPlace(place)  );
+        return reviewRepository.save(review.setUser(user).setPlace(place)).setPoint(point);
     }
 
 
@@ -46,13 +47,13 @@ public class ReviewService {
         final Review previousReview = reviewRepository.findByReviewId(targetReview.getReviewId())
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
-        pointService.savePointHistory(
-                previousReview.getUser(), previousReview.getReviewId(), calculatePointForUpdate(targetReview, previousReview));
+        final int point = calculatePointForUpdate(targetReview, previousReview);
+        pointService.savePointHistory(previousReview.getUser(), previousReview.getReviewId(), point);
 
         previousReview.clearAllPhotos();
         previousReview.addPhotos(targetReview.getPhotos());
 
-        return previousReview.changeContent(targetReview.getContent());
+        return previousReview.changeContent(targetReview.getContent()).setPoint(point);
     }
 
 

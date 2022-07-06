@@ -53,6 +53,7 @@ public class ReviewResponse {
                 .content(review.getContent())
                 .createdAt(review.getCreatedAt())
                 .lastModifiedAt(review.getModifiedAt())
+                .point(review.getPoint())
                 .build();
     }
 
