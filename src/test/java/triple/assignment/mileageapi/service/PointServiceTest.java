@@ -3,13 +3,10 @@ package triple.assignment.mileageapi.service;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
-import triple.assignment.mileageapi.point.controller.dto.PointHistoryResponse;
 import triple.assignment.mileageapi.point.controller.dto.PointResponse;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.point.domain.PointRepository;
@@ -26,7 +23,6 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
