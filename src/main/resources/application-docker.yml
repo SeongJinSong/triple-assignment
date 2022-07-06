@@ -2,16 +2,13 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:data.sql
 
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/testdb
-    username: user
+    username: root
     password: 123
-#    data: classpath:data.sql
-#    initialization-mode: always
 
   jpa:
     defer-datasource-initialization: true # ddl 후 script 실행
@@ -22,7 +19,7 @@ spring:
       ddl-auto: create
 
     properties:
-      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: true
     #        format_sql: 'true'
