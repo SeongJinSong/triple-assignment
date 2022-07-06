@@ -3,6 +3,8 @@ package triple.assignment.mileageapi.review.domain;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.global.base.BaseTimeEntity;
+import triple.assignment.mileageapi.global.error.ErrorCode;
+import triple.assignment.mileageapi.global.error.exception.InvalidReviewException;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
 import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
@@ -62,12 +64,24 @@ public class Review extends BaseTimeEntity {
         return this;
     }
 
+    /**
+     * @throws InvalidReviewException (내용점수) + (사진점수) = 0 인 경우(둘 다 없는 경우) 예외 리턴
+     * @return 리뷰의 내용 점수와 사진 점수를 합산한 결과를 리턴한다.
+     */
+    public int getContentAndPhotoPoint() {
+        int sum = getContentPoint() + getPhotoPoint();
+        if (sum == 0) {
+            throw new InvalidReviewException(ErrorCode.INVALID_REVIEW_INFO);
+        }
+        return sum;
+    }
+
     public int getPhotoPoint() {
         return getPhotos().isEmpty() ? 0 : 1;
     }
 
     public int getContentPoint() {
-        return getContent().isEmpty() ? 0 : 1;
+        return getContent().isBlank() ? 0 : 1;
     }
 
     public Review setUser(User user) {

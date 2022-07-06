@@ -78,17 +78,16 @@ public class ReviewService {
 
 
     private int calculatePointForUpdate(Review after, Review before) {
-        return (after.getContentPoint() + after.getPhotoPoint()) - (before.getContentPoint() + before.getPhotoPoint());
+        return after.getContentAndPhotoPoint() - before.getContentAndPhotoPoint();
     }
 
     private int calculatePointForSave(Review review, Place place) {
-        return review.getPhotoPoint() + review.getContentPoint() + place.getFirstReviewPoint() ;
+        return review.getContentAndPhotoPoint() + place.getFirstReviewPoint() ;
     }
 
     private int calculatePointForDelete(Review review) {
-        return -1 * (review.getPhotoPoint() + review.getContentPoint() + getFirstReviewPoint(review));
+        return -1 * (review.getContentAndPhotoPoint() + getFirstReviewPoint(review));
     }
-
 
     private int getFirstReviewPoint(Review review) {
         return review.getPlace().isFirstReview(review.getReviewId()) ? 1 : 0;
