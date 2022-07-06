@@ -28,6 +28,7 @@ public class PointController {
                                                                                      Pageable pageable) {
         final PointHistoryResponse response =
                 PointHistoryResponse.of(pointService.getPointHistoryByUser(userId, pageable));
+        response.setUserId(userId);
         return ResponseWrapper.ok("get user point history success", response);
     }
 }
