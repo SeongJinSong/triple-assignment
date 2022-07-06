@@ -26,6 +26,7 @@ public class PointHistoryResponse {
                                 .createdAt(e.getCreatedAt())
                                 .reviewId(e.getReviewId())
                                 .score(e.getScore())
+                                .actionType(e.getActionType())
                                 .build()
                         ).collect(Collectors.toList())
                 )

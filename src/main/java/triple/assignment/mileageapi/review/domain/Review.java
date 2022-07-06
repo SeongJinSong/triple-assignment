@@ -7,7 +7,7 @@ import triple.assignment.mileageapi.global.error.ErrorCode;
 import triple.assignment.mileageapi.global.error.exception.InvalidReviewException;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
-import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
 import triple.assignment.mileageapi.user.domain.User;
 
 import javax.persistence.*;
@@ -91,6 +91,7 @@ public class Review extends BaseTimeEntity {
     public int getContentPoint() {
         return getContent().isBlank() ? 0 : 1;
     }
+
 
     public Review setUser(User user) {
         this.user = user;

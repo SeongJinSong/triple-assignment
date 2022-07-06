@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import triple.assignment.mileageapi.point.controller.dto.PointHistoryResponse;
 import triple.assignment.mileageapi.point.controller.dto.PointResponse;
 import triple.assignment.mileageapi.point.domain.Point;
@@ -42,7 +43,7 @@ public class PointServiceTest {
     private List<Point> points;
 
     /**
-     * 조회 테스트 - 한번만 초기화
+     * read-only test
      */
     @BeforeAll
     public void setup() {
@@ -67,10 +68,12 @@ public class PointServiceTest {
     @DisplayName("get user's total point history")
     @Test
     public void getPointHistoryByUserTest() {
+        // given
+        given(pointRepository.findAllByUser(any(), any())).willReturn(points);
         // when
-//        PointHistoryResponse response = pointService.getPointHistoryByUser(user.getUserId());
+        List<Point> points = pointService.getPointHistoryByUser(user.getUserId(), PageRequest.ofSize(100));
         // then
-//        assertEquals(response.getPointHistory().size(), 5);
+        assertEquals(points.size(), 5);
     }
 
 }

@@ -3,13 +3,11 @@ package triple.assignment.mileageapi.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.review.controller.ReviewController;
@@ -33,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@MockBean(JpaMetamodelMappingContext.class) // JpaAuditingHandler property
 @WebMvcTest(controllers = ReviewController.class)
 public class ReviewControllerTest {
     @Autowired
@@ -41,20 +38,16 @@ public class ReviewControllerTest {
     @MockBean
     private ReviewService reviewService;
 
-    private Place place;
-    private User user;
-    private Photo photo1;
-    private Photo photo2;
     private Review review;
 
     @BeforeEach
     public void setup() {
-        place = Place.builder().reviews(new ArrayList<>()).placeId(UUID.randomUUID()).build();
+        Place place = Place.builder().reviews(new ArrayList<>()).placeId(UUID.randomUUID()).build();
 
-        user = User.builder().reviews(new ArrayList<>()).userId(UUID.randomUUID()).build();
+        User user = User.builder().reviews(new ArrayList<>()).userId(UUID.randomUUID()).build();
 
-        photo1 = Photo.builder().photoId(UUID.randomUUID()).build();
-        photo2 = Photo.builder().photoId(UUID.randomUUID()).build();
+        Photo photo1 = Photo.builder().photoId(UUID.randomUUID()).build();
+        Photo photo2 = Photo.builder().photoId(UUID.randomUUID()).build();
         List<Photo> list = new ArrayList<>();
         list.add(photo1);
         list.add(photo2);

@@ -80,7 +80,7 @@ public class ReviewServiceTest {
         given(placeService.getPlaceByIdOrThrow(any())).willReturn(place);
         given(userService.getUserByIdOrThrow(any())).willReturn(user);
         given(reviewRepository.existsByUserAndPlace(any(), any())).willReturn(Boolean.FALSE);
-        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt());
+        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt(), any());
         given(reviewRepository.save(any())).willReturn(review);
 
         // when
@@ -88,7 +88,7 @@ public class ReviewServiceTest {
 
         // then
         assertNotNull(createReview);
-        verify(pointService).savePointHistory(any(), any(), anyInt());
+        verify(pointService).savePointHistory(any(), any(), anyInt(), any());
         verify(reviewRepository).existsByUserAndPlace(any(), any());
         verify(reviewRepository).save(any());
     }
@@ -145,13 +145,13 @@ public class ReviewServiceTest {
                 .build();
 
         given(reviewRepository.findByReviewId(any())).willReturn(Optional.of(review));
-        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt());
+        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt(), any());
 
         // when
         Review afterReview = reviewService.patch(targetReview);
 
         // then
-        verify(pointService).savePointHistory(any(), any(), anyInt());
+        verify(pointService).savePointHistory(any(), any(), anyInt(), any());
         assertEquals(afterReview.getContent(), targetReview.getContent());
         assertThat(afterReview.getPhotos()).contains(newPhoto1, newPhoto2);
 
@@ -165,14 +165,14 @@ public class ReviewServiceTest {
         place.getReviews().add(review);
         user.getReviews().add(review);
         given(reviewRepository.findByReviewId(any())).willReturn(Optional.of(review));
-        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt());
+        willDoNothing().given(pointService).savePointHistory(any(), any(), anyInt(), any());
         willDoNothing().given(reviewRepository).delete(any());
 
         // when
         reviewService.delete(review);
 
         // then
-        verify(pointService).savePointHistory(any(), any(), anyInt());
+        verify(pointService).savePointHistory(any(), any(), anyInt(), any());
         verify(reviewRepository).delete(any());
         assertTrue(review.getPhotos().isEmpty());
         assertNull(review.getPlace());

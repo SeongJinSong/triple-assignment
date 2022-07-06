@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import triple.assignment.mileageapi.review.domain.Photo;
 import triple.assignment.mileageapi.review.domain.Review;
-import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
-import triple.assignment.mileageapi.review.domain.enumerated.EventType;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
+import triple.assignment.mileageapi.global.dto.enumerated.EventType;
 
 import java.util.ArrayList;
 import java.util.List;

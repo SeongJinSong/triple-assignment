@@ -5,7 +5,9 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionTypeConverter;
 import triple.assignment.mileageapi.point.controller.dto.PointDto;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
 import triple.assignment.mileageapi.user.domain.User;
 
 import javax.persistence.*;
@@ -24,6 +26,9 @@ public class Point {
     private Long id;
 
     private int score;
+
+    @Convert(converter = ActionTypeConverter.class)
+    private ActionType actionType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

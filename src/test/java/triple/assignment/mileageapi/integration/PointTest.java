@@ -21,8 +21,8 @@ import triple.assignment.mileageapi.review.domain.Photo;
 import triple.assignment.mileageapi.review.domain.PhotoRepository;
 import triple.assignment.mileageapi.review.domain.Review;
 import triple.assignment.mileageapi.review.domain.ReviewRepository;
-import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
-import triple.assignment.mileageapi.review.domain.enumerated.EventType;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
+import triple.assignment.mileageapi.global.dto.enumerated.EventType;
 import triple.assignment.mileageapi.user.domain.User;
 import triple.assignment.mileageapi.user.domain.UserRepository;
 
@@ -57,10 +57,7 @@ public class PointTest {
     private PointRepository pointRepository;
 
     private User user1;
-    private User user2;
     private Photo photo;
-    private Review review1;
-    private Review review2;
     private Place placeWithNoReview;
     private Place placeWithReview;
 
@@ -71,7 +68,7 @@ public class PointTest {
     @BeforeEach
     public void setup() {
         user1 = User.builder().userId(UUID.randomUUID()).reviews(new ArrayList<>()).build();
-        user2 = User.builder().userId(UUID.randomUUID()).reviews(new ArrayList<>()).build();
+        User user2 = User.builder().userId(UUID.randomUUID()).reviews(new ArrayList<>()).build();
         userRepository.saveAll(List.of(user1, user2));
 
         placeWithReview = Place.builder().placeId(UUID.randomUUID()).reviews(new ArrayList<>()).build();
@@ -81,18 +78,19 @@ public class PointTest {
         photo = Photo.builder().photoId(UUID.randomUUID()).build();
         photoRepository.save(photo);
 
-        review1 = Review.builder()
+        Review review1 = Review.builder()
                 .reviewId(UUID.randomUUID())
                 .user(user1)
                 .place(placeWithReview)
                 .content("review-1")
                 .build();
-        review2 = Review.builder()
+        Review review2 = Review.builder()
                 .reviewId(UUID.randomUUID())
                 .user(user2)
                 .place(placeWithReview)
                 .content("review-2")
                 .build();
+
         List<Photo> photoList = new ArrayList<>();
         photoList.add(photo);
         review1.addPhotos(photoList);
@@ -106,6 +104,7 @@ public class PointTest {
         placeWithReview.addReview(review2);
 
     }
+
 
     @DisplayName("첫 리뷰 등록 시 포인트 3점 부여")
     @Test

@@ -39,6 +39,9 @@ public class PointControllerTest {
     private PointResponse response;
     private User user;
 
+    /**
+     * read-only test
+     */
     @BeforeAll
     public void setup() {
         user = User.builder().userId(UUID.randomUUID()).points(new ArrayList<>()).build();
@@ -47,7 +50,7 @@ public class PointControllerTest {
     }
 
 
-    @DisplayName("get user total point")
+    @DisplayName("유저의 현재 누적 포인트를 조회한다.")
     @Test
     public void getPointSummaryTest() throws Exception {
         // given
@@ -64,27 +67,31 @@ public class PointControllerTest {
     }
 
 
-    @DisplayName("get user point history")
+    @DisplayName("유저의 포인트 변경 내역 리스트를 조회한다.")
     @Test
     public void getUserPointHistoryTest() throws Exception {
-//        // given
-//        final PointHistoryResponse response = PointHistoryResponse.builder()
-//                .userId(user.getUserId())
-//                .pointHistory(List.of(
-//                        PointDto.builder().score(1).reviewId(UUID.randomUUID()).createdAt(LocalDateTime.now()).build(),
-//                        PointDto.builder().score(3).reviewId(UUID.randomUUID()).createdAt(LocalDateTime.now()).build())
-//                )
-//                .build();
-//        given(pointService.getPointHistoryByUser(any())).willReturn(response);
-//
-//        // when & then
-//        mockMvc.perform(
-//                get("/users/{user-id}/points/history", user.getUserId())
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.data.userId").value(user.getUserId().toString()))
-//                .andExpect(jsonPath("$.data.pointHistory").isNotEmpty())
-//                .andDo(print());
+        // given
+        List<Point> list = List.of(
+                Point.builder().score(1).reviewId(UUID.randomUUID()).createdAt(LocalDateTime.now()).build(),
+                Point.builder().score(3).reviewId(UUID.randomUUID()).createdAt(LocalDateTime.now()).build()
+        );
+        final PointHistoryResponse response = PointHistoryResponse.builder()
+                .userId(user.getUserId())
+                .pointHistory(List.of(
+                        PointDto.builder().score(1).reviewId(UUID.randomUUID()).createdAt(LocalDateTime.now()).build(),
+                        PointDto.builder().score(3).reviewId(UUID.randomUUID()).createdAt(LocalDateTime.now()).build())
+                )
+                .build();
+        given(pointService.getPointHistoryByUser(any(), any())).willReturn(list);
+
+        // when & then
+        mockMvc.perform(
+                get("/users/{user-id}/points/history", user.getUserId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.userId").value(user.getUserId().toString()))
+                .andExpect(jsonPath("$.data.pointHistory").isNotEmpty())
+                .andDo(print());
     }
 
 

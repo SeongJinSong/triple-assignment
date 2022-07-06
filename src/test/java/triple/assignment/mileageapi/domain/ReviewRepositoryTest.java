@@ -19,6 +19,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @DataJpaTest
 public class ReviewRepositoryTest {
@@ -67,6 +68,7 @@ public class ReviewRepositoryTest {
     }
 
 
+    @DisplayName("find by review uuid")
     @Test
     void findByReviewId() {
         // given

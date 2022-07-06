@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.point.domain.PointRepository;
 import triple.assignment.mileageapi.user.domain.User;
@@ -20,12 +21,13 @@ public class PointService {
     private final PointRepository pointRepository;
 
     @Transactional
-    public void savePointHistory(User user, UUID reviewId, int score) {
+    public void savePointHistory(User user, UUID reviewId, int score, ActionType actionType) {
         pointRepository.save(
                 Point.builder()
                         .user(user)
                         .reviewId(reviewId)
                         .score(score)
+                        .actionType(actionType)
                         .build()
         );
     }

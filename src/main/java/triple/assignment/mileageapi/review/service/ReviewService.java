@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
 import triple.assignment.mileageapi.global.error.exception.DuplicateReviewException;
 import triple.assignment.mileageapi.global.error.exception.ReviewNotFoundException;
 import triple.assignment.mileageapi.place.domain.Place;
@@ -36,7 +37,7 @@ public class ReviewService {
         checkAlreadyWritten(user, place);
 
         final int point = calculatePointForSave(review, place);
-        pointService.savePointHistory(user, review.getReviewId(), point);
+        pointService.savePointHistory(user, review.getReviewId(), point,ActionType.ADD);
 
         return reviewRepository.save(review.setUser(user).setPlace(place)).setPoint(point);
     }
@@ -48,7 +49,7 @@ public class ReviewService {
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
         final int point = calculatePointForUpdate(targetReview, previousReview);
-        pointService.savePointHistory(previousReview.getUser(), previousReview.getReviewId(), point);
+        pointService.savePointHistory(previousReview.getUser(), previousReview.getReviewId(), point, ActionType.MOD);
 
         previousReview.clearAllPhotos();
         previousReview.addPhotos(targetReview.getPhotos());
@@ -62,7 +63,8 @@ public class ReviewService {
         final Review targetReview = reviewRepository.findByReviewId(review.getReviewId())
                 .orElseThrow(() -> new ReviewNotFoundException(REVIEW_NOT_FOUND));
 
-        pointService.savePointHistory(targetReview.getUser(), review.getReviewId(), calculatePointForDelete(targetReview));
+        pointService.savePointHistory(
+                targetReview.getUser(), review.getReviewId(), calculatePointForDelete(targetReview), ActionType.DELETE);
 
         targetReview.clearAllMappings();
 

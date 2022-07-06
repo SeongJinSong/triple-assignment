@@ -1,4 +1,4 @@
-package triple.assignment.mileageapi.review.domain.enumerated;
+package triple.assignment.mileageapi.global.dto.enumerated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import triple.assignment.mileageapi.global.error.ErrorCode;

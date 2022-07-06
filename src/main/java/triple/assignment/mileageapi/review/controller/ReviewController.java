@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import triple.assignment.mileageapi.global.dto.ResponseWrapper;
+import triple.assignment.mileageapi.global.error.ErrorCode;
+import triple.assignment.mileageapi.global.error.exception.InvalidActionTypeException;
 import triple.assignment.mileageapi.review.controller.dto.ReviewEventRequest;
 import triple.assignment.mileageapi.review.controller.dto.ReviewResponse;
-import triple.assignment.mileageapi.review.domain.enumerated.ActionType;
+import triple.assignment.mileageapi.global.dto.enumerated.ActionType;
 import triple.assignment.mileageapi.review.service.ReviewService;
 
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class ReviewController {
         }
 
         else {
-            throw new RuntimeException(); // TODO
+            throw new InvalidActionTypeException(ErrorCode.INVALID_ACTION_TYPE);
         }
     }
 }
