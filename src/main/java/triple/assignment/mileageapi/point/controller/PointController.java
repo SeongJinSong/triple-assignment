@@ -1,6 +1,7 @@
 package triple.assignment.mileageapi.point.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import triple.assignment.mileageapi.global.dto.ResponseWrapper;
@@ -23,8 +24,10 @@ public class PointController {
     }
 
     @GetMapping(path = "/history")
-    public ResponseEntity<ResponseWrapper<PointHistoryResponse>> getUserPointHistory(@PathVariable("user-id") UUID userId) {
-        final PointHistoryResponse response = pointService.getPointHistoryByUser(userId);
+    public ResponseEntity<ResponseWrapper<PointHistoryResponse>> getUserPointHistory(@PathVariable("user-id") UUID userId,
+                                                                                     Pageable pageable) {
+        final PointHistoryResponse response =
+                PointHistoryResponse.of(pointService.getPointHistoryByUser(userId, pageable));
         return ResponseWrapper.ok("get user point history success", response);
     }
 }

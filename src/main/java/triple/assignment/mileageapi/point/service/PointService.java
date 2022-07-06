@@ -1,16 +1,16 @@
 package triple.assignment.mileageapi.point.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import triple.assignment.mileageapi.point.controller.dto.PointHistoryResponse;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.point.domain.PointRepository;
 import triple.assignment.mileageapi.user.domain.User;
 import triple.assignment.mileageapi.user.service.UserService;
 
+import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -41,15 +41,8 @@ public class PointService {
 
 
     @Transactional(readOnly = true)
-    public PointHistoryResponse getPointHistoryByUser(UUID userId) {
-        return PointHistoryResponse.builder()
-                .userId(userId)
-                .pointHistory(
-                        userService.getUserByIdOrThrow(userId).getPoints()
-                                .stream()
-                                .map(Point::toDto)
-                                .collect(Collectors.toList())
-                )
-                .build();
+    public List<Point> getPointHistoryByUser(UUID userId, Pageable pageable) {
+        final User user = userService.getUserByIdOrThrow(userId);
+        return pointRepository.findAllByUser(user, pageable);
     }
 }
