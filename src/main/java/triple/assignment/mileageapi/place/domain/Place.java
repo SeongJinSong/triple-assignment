@@ -16,6 +16,9 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        indexes = @Index(name = "idx_place_uuid", columnList = "placeId")
+)
 @Entity
 public class Place {
     @Id

@@ -16,8 +16,11 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        name = "USERS",
+        indexes = @Index(name = "idx_users_uuid", columnList = "userId")
+)
 @Entity
-@Table(name = "USERS")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

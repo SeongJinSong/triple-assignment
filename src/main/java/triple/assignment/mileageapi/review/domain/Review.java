@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        indexes = @Index(name = "idx_review_uuid", columnList = "reviewId")
+)
 @Entity
 public class Review extends BaseTimeEntity {
     @Id

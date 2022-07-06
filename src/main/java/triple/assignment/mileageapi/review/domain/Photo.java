@@ -15,6 +15,9 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        indexes = @Index(name = "idx_photo_uuid", columnList = "photoId")
+)
 @Entity
 public class Photo {
     @Id
