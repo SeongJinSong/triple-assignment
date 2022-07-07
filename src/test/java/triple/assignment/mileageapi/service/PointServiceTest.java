@@ -1,12 +1,11 @@
 package triple.assignment.mileageapi.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import triple.assignment.mileageapi.point.controller.dto.PointResponse;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.point.domain.PointRepository;
@@ -25,8 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Slf4j
+
 @ExtendWith(MockitoExtension.class)
 public class PointServiceTest {
     @Mock
@@ -42,7 +40,7 @@ public class PointServiceTest {
     /**
      * read-only test
      */
-    @BeforeAll
+    @BeforeEach
     public void setup() {
         user = User.builder().userId(UUID.randomUUID()).points(new ArrayList<>()).build();
         points = IntStream.rangeClosed(1, 5)
@@ -68,7 +66,7 @@ public class PointServiceTest {
         // given
         given(pointRepository.findAllByUser(any(), any())).willReturn(points);
         // when
-        List<Point> points = pointService.getPointHistoryByUser(user.getUserId(), PageRequest.ofSize(100));
+        List<Point> points = pointService.getPointHistoryByUser(user.getUserId(), Pageable.ofSize(100));
         // then
         verify(pointRepository).findAllByUser(any(), any());
     }

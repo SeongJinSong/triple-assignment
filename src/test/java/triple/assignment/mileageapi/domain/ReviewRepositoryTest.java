@@ -3,9 +3,8 @@ package triple.assignment.mileageapi.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import triple.assignment.mileageapi.place.domain.Place;
 import triple.assignment.mileageapi.place.domain.PlaceRepository;
 import triple.assignment.mileageapi.review.domain.Review;
@@ -20,7 +19,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@AutoConfigureTestDatabase(replace = Replace.NONE)
+@ActiveProfiles("test") // data.sql 실행 방지를 위한 테스트 용 yml
 @DataJpaTest
 public class ReviewRepositoryTest {
     @PersistenceContext
