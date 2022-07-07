@@ -15,7 +15,8 @@
 
 ### - **엔티티 관계 다이어그램**
 
-![Untitled](C:\Users\adipy\Desktop\triple-assignment\ERD.png)
+![ERD](https://user-images.githubusercontent.com/58846192/177761847-095b2ca5-134f-4ccb-a5fa-730ee442138e.png)
+
 
 #
 
