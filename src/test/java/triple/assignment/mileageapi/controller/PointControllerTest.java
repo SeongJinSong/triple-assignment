@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@TestInstance(Lifecycle.PER_CLASS)
 @WebMvcTest(controllers = PointController.class)
 public class PointControllerTest {
     @Autowired
@@ -39,10 +38,7 @@ public class PointControllerTest {
     private PointResponse response;
     private User user;
 
-    /**
-     * read-only test
-     */
-    @BeforeAll
+    @BeforeEach
     public void setup() {
         user = User.builder().userId(UUID.randomUUID()).points(new ArrayList<>()).build();
         point = Point.builder().user(user).score(1).build();
