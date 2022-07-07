@@ -1,19 +1,24 @@
 spring:
+  sql:
+    init:
+      platform: h2
+      mode: always
 
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/mileage
-    username: sa
+    url: jdbc:h2:mem:testdb;MODE=MYSQL
+    username: user
     password: 123
 
   jpa:
+    defer-datasource-initialization: true # ddl 후 script 실행
     open-in-view: false
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
     hibernate:
       ddl-auto: create
 
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: true
