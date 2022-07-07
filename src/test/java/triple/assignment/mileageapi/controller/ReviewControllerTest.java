@@ -76,8 +76,7 @@ public class ReviewControllerTest {
                         .content(addRequest))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("200"))
-                .andExpect(jsonPath("$.message").value("handle review create event success."))
-                .andDo(print());
+                .andExpect(jsonPath("$.message").value("handle review create event success."));
     }
 
 
@@ -95,8 +94,7 @@ public class ReviewControllerTest {
                         .content(patchRequest))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("200"))
-                .andExpect(jsonPath("$.message").value("handle review patch event success."))
-                .andDo(print());
+                .andExpect(jsonPath("$.message").value("handle review patch event success."));
     }
 
 
@@ -113,8 +111,7 @@ public class ReviewControllerTest {
                         .content(deleteRequest))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("200"))
-                .andExpect(jsonPath("$.message").value("handle review delete event success."))
-                .andDo(print());
+                .andExpect(jsonPath("$.message").value("handle review delete event success."));
     }
 
 }

@@ -119,8 +119,7 @@ public class PointTest {
                         .content(request))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.data.point").value(3))
-                .andDo(print());
+                .andExpect(jsonPath("$.data.point").value(3));
     }
 
 
@@ -139,8 +138,7 @@ public class PointTest {
                         .content(request))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(200))
-                .andExpect(jsonPath("$.data.point").value(2))
-                .andDo(print());
+                .andExpect(jsonPath("$.data.point").value(2));
     }
 
 
@@ -160,8 +158,7 @@ public class PointTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(200))
-                .andDo(print());
+                .andExpect(jsonPath("$.status").value(200));
 
         final int afterPoint = pointRepository.findAllByUser(user1, Pageable.unpaged()).stream()
                 .map(Point::getScore)

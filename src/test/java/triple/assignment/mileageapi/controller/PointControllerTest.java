@@ -58,8 +58,7 @@ public class PointControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.userId").value(user.getUserId().toString()))
-                .andExpect(jsonPath("$.data.totalPoint").value(response.getTotalPoint()))
-                .andDo(print());
+                .andExpect(jsonPath("$.data.totalPoint").value(response.getTotalPoint()));
     }
 
 
@@ -86,8 +85,7 @@ public class PointControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.userId").value(user.getUserId().toString()))
-                .andExpect(jsonPath("$.data.pointHistory").isNotEmpty())
-                .andDo(print());
+                .andExpect(jsonPath("$.data.pointHistory").isNotEmpty());
     }
 
 
