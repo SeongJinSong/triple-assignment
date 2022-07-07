@@ -103,6 +103,10 @@ MySQL InnoDB 에서는 FK에 대해 자동 인덱스를 생성하기 때문에 �
 $ docker-compose up -d  # (host port : 8080)
 ```
 
+```bash
+# mysql mode의 h2-inmemory db로도 테스트 가능합니다 (ide로 project open -> run applicaiton)
+```
+
 #
 
 - api 테스트를 위해 필요한 초기 데이터는 과제 PDF의 예제 데이터 형식을 바탕으로 생성
