@@ -13,6 +13,7 @@ services:
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      TZ: Asia/Seoul
     ports:
       - "3306:3306"
     networks:
@@ -25,10 +26,11 @@ services:
     restart: always
     container_name: mileage-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/testdb?useSSL=false&serverTimezone=UTC&validationQuery="select 1"
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/testdb?useSSL=false&serverTimezone=Asia/Seoul&validationQuery="select 1"
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 123
       SPRING_PROFILES_ACTIVE: docker
+      TZ: Asia/Seoul
     depends_on:
       - database
     ports:
