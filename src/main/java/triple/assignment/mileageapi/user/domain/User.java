@@ -1,6 +1,7 @@
 package triple.assignment.mileageapi.user.domain;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Type;
 import triple.assignment.mileageapi.point.domain.Point;
 import triple.assignment.mileageapi.global.base.BaseTimeEntity;
@@ -31,9 +32,11 @@ public class User {
     @Column(columnDefinition = "char(36)")
     private UUID userId;
 
+    @BatchSize(size = 40)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+    @BatchSize(size = 40)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
 
