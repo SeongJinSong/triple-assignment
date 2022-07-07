@@ -45,8 +45,7 @@ create table point
     review_id   char(36) null,
     score       int not null,
     user_id     bigint null,
-    constraint fk_point_user_id
-        foreign key (user_id) references users (id)
+    constraint fk_point_user_id foreign key (user_id) references users (id)
 );
 
 
@@ -59,10 +58,8 @@ create table review
     review_id   char(36) not null,
     place_id    bigint   not null,
     user_id     bigint   not null,
-    constraint fk_review_user_id
-        foreign key (user_id) references users (id),
-    constraint fk_review_place_id
-        foreign key (place_id) references place (id)
+    constraint fk_review_user_id foreign key (user_id) references users (id),
+    constraint fk_review_place_id foreign key (place_id) references place (id)
 );
 
 
@@ -72,8 +69,7 @@ create table photo
     created_at datetime null,
     photo_id   char(36) null,
     review_id  bigint null,
-    constraint fk_photo_review_id
-        foreign key (review_id) references review (id)
+    constraint fk_photo_review_id foreign key (review_id) references review (id)
 );
 ```
 
@@ -103,6 +99,7 @@ MySQL InnoDB 에서는 FK에 대해 자동 인덱스를 생성하기 때문에 �
 - 프로젝트 홈 경로에서 (docker-compose.yml이 위치한 경로) 터미널을 열고, 다음 명령어 수행
 
 ```bash
+# 앱 컨테이너 로딩 완료 후에도 db 컨테이너와의 연결에 시간이 수 초 걸릴 수 있습니다
 $ docker-compose up -d  # (host port : 8080)
 ```
 
@@ -144,7 +141,7 @@ insert into users(user_id) values ('3ede0ef2-92b7-4817-a5f3-0c575361f745');
 **1-1 리뷰 생성 이벤트**
 
 ```json
-POST localhsot:8080/events
+// POST  localhost:8080/events
 
 {
     "type": "REVIEW",
@@ -186,7 +183,7 @@ POST localhsot:8080/events
 **1-2 리뷰 수정 이벤트**
 
 ```json
-POST localhsot:8080/events
+POST  localhost:8080/events
 
 {
     "type": "REVIEW",
@@ -226,7 +223,7 @@ POST localhsot:8080/events
 **1-3 리뷰 삭제 이벤트**
 
 ```json
-POST localhsot:8080/events
+POST  localhost:8080/events
 
 {
     "type": "REVIEW",
@@ -261,7 +258,7 @@ POST localhsot:8080/events
 **2-1 유저의 현재 포인트 조회 서비스**
 
 ```json
-GET localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/summary
+GET  localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/summary
 
 ----------------------- ↓ response ↓ -----------------------
 
@@ -287,7 +284,7 @@ GET localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/summary
 - 별도의 쿼리 파라미터가 없는경우, 모든 데이터 조회
 
 ```json
-GET localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/history
+GET  localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/history
 
 ----------------------- ↓ response ↓ -----------------------
 
