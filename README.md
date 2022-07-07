@@ -281,7 +281,7 @@ GET  localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/summary
 | --- | --- | --- |
 | 페이지 넘버 | 페이지 사이즈 | 정렬 기준 |
 - ex) ~/history?page=2&size=20&sort=createdAt,asc
-- 별도의 쿼리 파라미터가 없는경우, 모든 데이터 조회
+- 별도의 쿼리 파라미터가 없는경우, 20개 조회
 
 ```json
 GET  localhost:8080/users/3ede0ef2-92b7-4817-a5f3-0c575361f745/points/history
