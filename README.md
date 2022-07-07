@@ -1,10 +1,9 @@
 # triple-assignment
 
----
 
 ## 0. 개발 환경
 
----
+
 
 - JAVA 11
 - Spring Boot v2.6.4
@@ -13,7 +12,6 @@
 
 ## 1. DDL / ERD
 
----
 
 ### - **엔티티 관계 다이어그램**
 
@@ -92,13 +90,14 @@ create index idx_place_uuid on place (place_id); -- place uuid
 create index idx_users_uuid on users (user_id); -- user uuid
 ```
 
-MySQL InnoDB 에서는 FK에 대해 자동 인덱스를 생성하기 때문에 나머지 검색조건에 대해서만 설정
+MySQL InnoDB 에서는 FK에 대해 자동 인덱스를 생성하기 때문에 나머지 검색조건에 대해서만 설정    
 
 #
 
+
 ## 2. 애플리케이션 실행 방법
 
----
+
 
 - 프로젝트 홈 경로에서 (docker-compose.yml이 위치한 경로) 터미널을 열고, 다음 명령어 수행
 
@@ -121,7 +120,7 @@ insert into users(user_id) values ('3ede0ef2-92b7-4817-a5f3-0c575361f745');
 
 ## 3. API 명세 및 테스트 예시
 
----
+
 
 아래의 엔드포인트와 HTTP 메서드, 요청 본문으로 테스트 가능
 
